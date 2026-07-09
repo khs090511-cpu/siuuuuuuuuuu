@@ -1,0 +1,588 @@
+/* ==========================================================================
+   CSS 변수 정의 및 기본 리셋
+   ========================================================================== */
+:root {
+    /* 색상 테마: 몽환적인 연보라 그라데이션 베이스 */
+    --color-bg-1: #dfd2f7; /* Soft Dreamy Lavender */
+    --color-bg-2: #ebd9fc; /* Lilac Violet */
+    --color-bg-3: #e6e0f8; /* Pale Purple Mist */
+    --color-text-main: #201130; /* Deep Purple Black */
+    --color-text-muted: #514263; /* Muted Violet */
+    --color-point: #9c63f9; /* Accent Violet */
+    --color-point-hover: #8141f2;
+    
+    /* 글래스모피즘 변수 (보랏빛 감성 추가) */
+    --glass-bg: rgba(255, 255, 255, 0.35);
+    --glass-border: rgba(255, 255, 255, 0.65);
+    --glass-shadow: 0 20px 45px rgba(66, 33, 110, 0.08);
+    
+    /* 서체 */
+    --font-primary: 'Noto Sans KR', sans-serif;
+    --font-accent: 'Playfair Display', serif;
+    --font-english: 'Outfit', sans-serif;
+    
+    /* 스크롤 행동 */
+    scroll-behavior: smooth;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    font-family: var(--font-primary);
+    color: var(--color-text-main);
+    /* 몽환적인 연보라 그라데이션 */
+    background: linear-gradient(135deg, var(--color-bg-1) 0%, var(--color-bg-2) 50%, var(--color-bg-3) 100%);
+    background-size: 400% 400%;
+    animation: gradient-flow 24s ease infinite;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* 몽환적 분위기를 자아내는 배경 일렁임 오라 링 */
+body::before, body::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+body::before {
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(156, 99, 249, 0.4) 0%, rgba(235, 217, 252, 0.1) 70%);
+    top: 10%;
+    left: -100px;
+    animation: aura-move-1 25s ease-in-out infinite alternate;
+}
+
+body::after {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255, 182, 219, 0.3) 0%, rgba(230, 224, 248, 0.1) 70%);
+    bottom: 20%;
+    right: -150px;
+    animation: aura-move-2 30s ease-in-out infinite alternate;
+}
+
+@keyframes aura-move-1 {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(120px, 80px) scale(1.15); }
+}
+
+@keyframes aura-move-2 {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-100px, -120px) scale(1.2); }
+}
+
+/* 배경 그라데이션 흐름 애니메이션 */
+@keyframes gradient-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ==========================================================================
+   상단 고정 글래스 네비게이션
+   ========================================================================== */
+#main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+    display: flex;
+    align-items: center;
+}
+
+#nav-bar {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-family: var(--font-english);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--color-text-main);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav-logo:hover {
+    color: var(--color-point);
+}
+
+.nav-links {
+    display: flex;
+    gap: 28px;
+}
+
+.nav-links a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-main);
+    text-decoration: none;
+    position: relative;
+    padding: 6px 0;
+    transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-point);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--color-point);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* ==========================================================================
+   레이아웃 & 섹션 공통 스타일
+   ========================================================================== */
+#portfolio-container {
+    padding-top: 70px; /* 네비게이션 바 공간 확보 */
+}
+
+.scroll-section {
+    min-height: calc(100vh - 70px);
+    padding: 80px 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* 공통 글래스모피즘 카드 */
+.glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 24px;
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+}
+
+/* 섹션 레이블 및 타이틀 디자인 */
+.section-label {
+    font-family: var(--font-english);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--color-point);
+    display: block;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.center-label {
+    text-align: center;
+}
+
+.section-title {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: var(--color-text-main);
+    margin-bottom: 28px;
+}
+
+.center-title {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.divider-line {
+    width: 60px;
+    height: 3px;
+    background: var(--color-point);
+    margin: 20px auto;
+    border-radius: 2px;
+}
+
+/* ==========================================================================
+   [섹션 1] 첫 화면 (Hero)
+   ========================================================================== */
+#hero .hero-content {
+    width: 100%;
+    max-width: 580px;
+    padding: 50px 40px;
+    text-align: center;
+}
+
+#hero .hero-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(110, 80, 120, 0.12);
+}
+
+.emoji-badge {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    font-size: 38px;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 20px rgba(255, 117, 149, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+/* 둥둥 뜨는 애니메이션 */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+}
+
+.floating-animation {
+    animation: float 4s ease-in-out infinite;
+}
+
+#user-name {
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+}
+
+#user-subtitle {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+#user-bio {
+    font-family: var(--font-primary);
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--color-text-muted);
+    margin-bottom: 30px;
+    word-break: keep-all;
+}
+
+/* 스크롤 유도 힌트 */
+.scroll-hint {
+    margin-top: 10px;
+    opacity: 0.7;
+    animation: float-small 2.5s infinite;
+}
+
+.scroll-hint span {
+    font-family: var(--font-english);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.arrow-down {
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--color-text-muted);
+    border-bottom: 2px solid var(--color-text-muted);
+    transform: rotate(45deg);
+    margin: 8px auto 0;
+}
+
+@keyframes float-small {
+    0% { transform: translateY(0); opacity: 0.4; }
+    50% { transform: translateY(5px); opacity: 0.9; }
+    100% { transform: translateY(0); opacity: 0.4; }
+}
+
+/* ==========================================================================
+   [섹션 2] 진로 및 목표 (Career)
+   ========================================================================== */
+#career .section-container {
+    width: 100%;
+    max-width: 750px;
+    padding: 60px 48px;
+}
+
+#career .paragraph {
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--color-text-muted);
+    margin-bottom: 20px;
+    word-break: keep-all;
+}
+
+#career .paragraph strong {
+    color: var(--color-text-main);
+    font-weight: 700;
+    border-bottom: 2px dashed rgba(255, 117, 149, 0.4);
+    padding-bottom: 2px;
+}
+
+#career .paragraph:last-child {
+    margin-bottom: 0;
+}
+
+/* ==========================================================================
+   [섹션 3] 관련 활동 2가지 (Activities)
+   ========================================================================== */
+.wide-container {
+    width: 100%;
+    max-width: 960px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.activity-card {
+    padding: 48px 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.activity-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(110, 80, 120, 0.12);
+}
+
+.card-icon {
+    font-size: 32px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-text-main);
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+
+.card-desc {
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--color-text-muted);
+    word-break: keep-all;
+}
+
+/* ==========================================================================
+   [섹션 4] 나의 강점 및 성격 (Strengths)
+   ========================================================================== */
+#strengths .section-container {
+    width: 100%;
+    max-width: 750px;
+    padding: 60px 48px;
+}
+
+.strengths-box {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin-top: 10px;
+}
+
+.strength-item {
+    border-left: 4px solid var(--color-point);
+    padding-left: 20px;
+    transition: transform 0.3s;
+}
+
+.strength-item:hover {
+    transform: translateX(6px);
+}
+
+.strength-tag {
+    font-family: var(--font-primary);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-point);
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.strength-desc {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--color-text-muted);
+    word-break: keep-all;
+}
+
+/* ==========================================================================
+   [섹션 5] 다짐 (Resolution)
+   ========================================================================== */
+.resolution-container {
+    width: 100%;
+    max-width: 750px;
+    padding: 70px 48px;
+    text-align: center;
+}
+
+#resolution-slogan {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    color: var(--color-text-main);
+    text-shadow: 0 2px 10px rgba(110, 80, 120, 0.05);
+    margin-bottom: 12px;
+}
+
+#resolution-desc {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--color-text-muted);
+    margin-bottom: 36px;
+    word-break: keep-all;
+}
+
+.short-line {
+    width: 40px;
+}
+
+/* 상단 이동 버튼 */
+.btn-top {
+    display: inline-block;
+    padding: 12px 30px;
+    background: var(--color-point);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    color: white;
+    font-size: 13px;
+    font-family: var(--font-english);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 6px 15px rgba(255, 117, 149, 0.25);
+    transition: all 0.3s ease;
+}
+
+.btn-top:hover {
+    background: var(--color-point-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 117, 149, 0.35);
+}
+
+/* ==========================================================================
+   하단 정보 (Footer)
+   ========================================================================== */
+#main-footer {
+    width: 100%;
+    padding: 30px 24px;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+#main-footer p {
+    font-family: var(--font-english);
+    font-size: 12px;
+    color: var(--color-text-muted);
+    letter-spacing: 1px;
+}
+
+/* ==========================================================================
+   반응형 최적화 (Responsive Design)
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* 모바일 헤더 */
+    .nav-links {
+        gap: 16px;
+    }
+    
+    .nav-links a {
+        font-size: 13px;
+    }
+    
+    /* 공통 폰트 및 구조 */
+    .section-title {
+        font-size: 26px;
+        margin-bottom: 20px;
+    }
+    
+    #hero .hero-content {
+        padding: 40px 24px;
+    }
+    
+    #user-name {
+        font-size: 32px;
+    }
+    
+    #user-subtitle {
+        font-size: 14px;
+        letter-spacing: 3px;
+    }
+    
+    #user-bio {
+        font-size: 14.5px;
+    }
+    
+    #career .section-container,
+    #strengths .section-container,
+    .resolution-container {
+        padding: 40px 24px;
+    }
+    
+    /* 그리드 시스템을 세로 1열로 변환 */
+    .grid-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .activity-card {
+        padding: 32px 24px;
+    }
+    
+    #resolution-slogan {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* 네비게이션 간소화 */
+    .nav-links {
+        display: none; /* 모바일 하단바나 토글이 없을 경우 초슬림 디자인으로 링크 생략 */
+    }
+    
+    #nav-bar {
+        justify-content: center;
+    }
+    
+    .scroll-section {
+        padding: 60px 16px;
+    }
+}
